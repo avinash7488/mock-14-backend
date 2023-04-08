@@ -48,7 +48,7 @@ app.patch("/update/:id",async(req,res)=>{
     }
 })
 
-app.patch("/delete/:id",async(req,res)=>{
+app.delete("/delete/:id",async(req,res)=>{
     const {id}=req.params;
     try{
         await AccountModel.findByIdAndDelete({_id:id});
