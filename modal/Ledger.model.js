@@ -3,7 +3,8 @@ const mongoose= require("mongoose");
 const LedgerSchema= mongoose.Schema({
     deposit:String,
     withdraw: String,
-    transfer: Object
+    transfer: Object,
+    
 },{
     versionKey:false
 });

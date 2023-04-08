@@ -5,6 +5,7 @@ const {auth} = require("./middleware/auth.middleware");
 const {connecion}= require("./config/db")
 const {AccountRouter} = require("./routes/Bank.routes");
 const { AccountModel } = require("./modal/Account.model");
+const { LedgerModel } = require("./modal/Ledger.model");
 
 
 
@@ -59,55 +60,19 @@ app.delete("/delete/:id",async(req,res)=>{
 })
 
 
-// // below code can be used to register by users in user site---------------->
-// app.post("/signup",async(req,res)=>{
-//     const {email,password,cp}= req.body;;
-//     if(password!=cp){
-//         res.send({"msg":"password didn't match"})
-//     }else{
-//         try{
-//             bcrypt.hash(password,5,async(err,hash)=>{
-//                 if(err){
-//                     res.send({"msg":"somthing went wrong while hashing password"})
-//                 }else{
-//                     const user = new UserModel({email,password:hash});
-//                     await user.save();
-//                     res.send({"msg":"You have been registered successfully"})
-//                 }
-//             })
-//         }catch(err){
-//             res.send({"msg":"somthing went wrong! cannot register","error":err.message})
-//         }
-//     }
-    
-// })
+app.post("/transaction/:id",async(req,res)=>{
+    const {id}=req.params;
+    const payload= req.body;
 
-// below code can be used to login by user---------------->
-// app.patch("/login",async(req,res)=>{
-//     const {email,password}=req.body;
-//     try{
-//         const user = await UserModel.findOne({email});
-//         if(user){
-//             bcrypt.compare(password,user.password,async(err,result)=>{
-//                 if(result){
-//                     let token =jwt.sign({userID:user._id},"masai");
-//                     await UserModel.findByIdAndUpdate({_id:user._id},{is_active:true})
-//                     res.send({"msg":"Login Successfull","token":token})
-//                 }else{
-//                     res.send({"msg":"Wrong Credentials"})
-//                 }
-//             })
-//         }else{
-//             res.send({"msg":"User not found!"})
-//         }
-        
-//     }catch(err){
-//         res.send({"msg":"somthing went wrong! cannot login","error":err.message})
-//     }
-// })
+    try{
+        await LedgerModel.findByIdAndUpdate({_id:id},payload);
+        res.send({"msg":"Account updated"})
+    }catch(err){
+        res.send({"msg":"somthing went wrong! cannot update Account","error":err.message})
+    }
+})
 
 
-// server will run at port 8080----------------------------------------->
 app.listen(process.env.port,async()=>{
     try{
         await connecion;
