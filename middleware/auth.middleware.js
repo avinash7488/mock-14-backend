@@ -3,17 +3,17 @@ const { AccountModel } = require("../modal/Account.model");
 
 const auth = async(req,res,next)=>{
     const {email}= req.body;
+    console.log(req.method);
     const account = await AccountModel.find({email});
     if(account.length>0){
         const {_id}= account[0];
         req.body.ID=_id;
-        req.body.email=email;
         next();
     }
     else{
-        req.body.email=email;
         next();
         }
-}
+    }
+
 
 module.exports={auth}
