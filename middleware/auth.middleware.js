@@ -1,20 +1,17 @@
 const jwt = require("jsonwebtoken");
+const { AccountModel } = require("../modal/Account.model");
 
-const auth = (req,res,next)=>{
-    const token= req.headers.authorization;
-
-    if(token){
-        jwt.verify(token,"masai",(err,decoded)=>{
-            if(decoded){
-                req.body.userID=decoded.userID;
-                next();
-            }else{
-                res.send({"msg":"Token didn't match, Please Login First!"})
-            }
-        })
-    }else{
-        res.send({"msg":"Please Login First!"})
+const auth = async(req,res,next)=>{
+    const {email,panNo}= req.body;
+    const account = await AccountModel.find({email,panNo});
+    if(account.length>0){
+        const {_id}= account[0];
+        req.body.ID=_id;
+        next();
     }
+    else{
+        next();
+        }
 }
 
 module.exports={auth}
