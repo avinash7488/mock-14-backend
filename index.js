@@ -4,6 +4,7 @@ require('dotenv').config();
 const {auth} = require("./middleware/auth.middleware");
 const {connecion}= require("./config/db")
 const {AccountRouter} = require("./routes/Bank.routes");
+const { AccountModel } = require("./modal/Account.model");
 
 
 
@@ -23,6 +24,15 @@ app.use("/account",AccountRouter);
 // Homepage---------------->
 app.get("/",(req,res)=>{
     res.send("HOME PAGE")
+})
+
+app.get("/user/get",async(req,res)=>{
+    try{
+        const user = await AccountModel.find();
+        res.send(user)
+    }catch(err){
+        res.send({"msg":"somthing went wrong! cannot Get User","error":err.message})
+    }
 })
 
 // // below code can be used to register by users in user site---------------->

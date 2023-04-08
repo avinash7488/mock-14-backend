@@ -29,26 +29,18 @@ AccountRouter.post("/create",async(req,res)=>{
 })
  
 
-AccountRouter.get("/get",async(req,res)=>{
-    const email=req.body.email;
-    try{
-        const user = await AccountModel.find({email});
-        res.send(user)
-    }catch(err){
-        res.send({"msg":"somthing went wrong! cannot Get User","error":err.message})
-    }
-})
 
 
-userRouter.patch("/logout",async(req,res)=>{
-    const userID=req.body.userID;
-    try{
-        await UserModel.findByIdAndUpdate({_id:userID},{is_active:false});
-        res.send({"msg":"Your account is logged out"})
-    }catch(err){
-        res.send({"msg":"somthing went wrong! cannot logout Account","error":err.message})
-    }
-})
+
+// userRouter.patch("/logout",async(req,res)=>{
+//     const userID=req.body.userID;
+//     try{
+//         await UserModel.findByIdAndUpdate({_id:userID},{is_active:false});
+//         res.send({"msg":"Your account is logged out"})
+//     }catch(err){
+//         res.send({"msg":"somthing went wrong! cannot logout Account","error":err.message})
+//     }
+// })
 
 // AccountRouter.post("/dashboard",async(req,res)=>{
 //     const payload=req.body;
