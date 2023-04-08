@@ -30,15 +30,25 @@ AccountRouter.post("/create",async(req,res)=>{
  
 
 AccountRouter.get("/get",async(req,res)=>{
-    const ID=req.body.ID;
+    const email=req.body.email;
     try{
-        const user = await AccountModel.find({_id:ID});
+        const user = await AccountModel.find({email});
         res.send(user)
     }catch(err){
         res.send({"msg":"somthing went wrong! cannot Get User","error":err.message})
     }
 })
 
+
+userRouter.patch("/logout",async(req,res)=>{
+    const userID=req.body.userID;
+    try{
+        await UserModel.findByIdAndUpdate({_id:userID},{is_active:false});
+        res.send({"msg":"Your account is logged out"})
+    }catch(err){
+        res.send({"msg":"somthing went wrong! cannot logout Account","error":err.message})
+    }
+})
 
 // AccountRouter.post("/dashboard",async(req,res)=>{
 //     const payload=req.body;
@@ -83,17 +93,5 @@ AccountRouter.get("/get",async(req,res)=>{
 // })
 
 
-
-
-// // below code can be used to Logout Account by users---------------->
-// userRouter.patch("/logout",async(req,res)=>{
-//     const userID=req.body.userID;
-//     try{
-//         await UserModel.findByIdAndUpdate({_id:userID},{is_active:false});
-//         res.send({"msg":"Your account is logged out"})
-//     }catch(err){
-//         res.send({"msg":"somthing went wrong! cannot logout Account","error":err.message})
-//     }
-// })
 
 module.exports = {AccountRouter}

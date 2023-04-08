@@ -7,9 +7,11 @@ const auth = async(req,res,next)=>{
     if(account.length>0){
         const {_id}= account[0];
         req.body.ID=_id;
+        req.body.email=email;
         next();
     }
     else{
+        req.body.email=email;
         next();
         }
 }
