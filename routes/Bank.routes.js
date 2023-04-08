@@ -29,6 +29,16 @@ AccountRouter.post("/create",async(req,res)=>{
 })
  
 
+AccountRouter.get("/get",async(req,res)=>{
+    const ID=req.body.ID;
+    try{
+        const user = await AccountModel.find({_id:ID});
+        res.send(user)
+    }catch(err){
+        res.send({"msg":"somthing went wrong! cannot Get User","error":err.message})
+    }
+})
+
 
 // AccountRouter.post("/dashboard",async(req,res)=>{
 //     const payload=req.body;
@@ -51,16 +61,8 @@ AccountRouter.post("/create",async(req,res)=>{
 
 // const userRouter= express.Router();
 
-// // below code can be used to get all products which are added by users ---------------->
-// userRouter.get("/",async(req,res)=>{
-//     const userID=req.body.userID;
-//     try{
-//         const user = await UserModel.find({userID});
-//         res.send(user)
-//     }catch(err){
-//         res.send({"msg":"somthing went wrong! cannot Get User","error":err.message})
-//     }
-// })
+
+
  
 
 
