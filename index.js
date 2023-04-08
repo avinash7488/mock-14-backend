@@ -38,15 +38,23 @@ app.get("/user/get",async(req,res)=>{
 
 app.patch("/update/:id",async(req,res)=>{
     const {id}=req.params;
-    // const Email= req.body.email;
     const payload= req.body;
-    // console.log(Email,payload)
 
     try{
         await AccountModel.findByIdAndUpdate({_id:id},payload);
         res.send({"msg":"Account updated"})
     }catch(err){
         res.send({"msg":"somthing went wrong! cannot update Account","error":err.message})
+    }
+})
+
+app.patch("/delete/:id",async(req,res)=>{
+    const {id}=req.params;
+    try{
+        await AccountModel.findByIdAndDelete({_id:id});
+        res.send({"msg":"Account Closed"})
+    }catch(err){
+        res.send({"msg":"somthing went wrong! cannot close the Account","error":err.message})
     }
 })
 
